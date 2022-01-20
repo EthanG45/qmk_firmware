@@ -37,15 +37,15 @@
 #define DRIVER_ADDR_2 0b1110100
 
 /* RGB Matrix Configuration */
-#define DRIVER_1_LED_TOTAL 45
+#define DRIVER_1_LED_TOTAL 44  // -1, no LED under EC11
 #define DRIVER_2_LED_TOTAL 37
 #define DRIVER_LED_TOTAL (DRIVER_1_LED_TOTAL + DRIVER_2_LED_TOTAL)
 
 /* Scan phase of led driver set as MSKPHASE_9CHANNEL(defined as 0x03 in CKLED2001.h) */
 #define PHASE_CHANNEL MSKPHASE_9CHANNEL
 
-/* Set the maxium brightness as 190 in order to limit the current to 450mA */
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 190
+/* Set the maxium brightness as 192 in order to limit the current to 450mA */
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS (24 * 8)  // 9 = RGB_MATRIX_VAL_STEP
 
 /* Set USB polling rate as 1 milliseconds */
 #define USB_POLLING_INTERVAL_MS 1
@@ -60,5 +60,7 @@
 /* Specifies the number of pulses the encoder registers between each detent */
 #define ENCODER_RESOLUTION 4
 
-/* Enable caps-lock LED */
-#define CAPS_LOCK_LED_INDEX 44
+/* Sets the default hue and saturation values */
+/* = Royal Blue (#4169E1) */
+#define RGB_MATRIX_STARTUP_HUE 159
+#define RGB_MATRIX_STARTUP_SAT 181
