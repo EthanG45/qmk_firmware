@@ -117,6 +117,14 @@ static bool encoder_update(uint8_t index, uint8_t state) {
 #ifdef SPLIT_KEYBOARD
     index += thisHand;
 #endif
+    if (encoder_LUT[state & 0xF] == -1) {
+        setPinOutput(A3);
+        togglePin(A3);
+    }
+    if (encoder_LUT[state & 0xF] == 1) {
+        setPinOutput(A4);
+        togglePin(A4);
+    }
     encoder_pulses[i] += encoder_LUT[state & 0xF];
     if (encoder_pulses[i] >= resolution) {
         encoder_value[index]++;
@@ -177,3 +185,9 @@ void encoder_update_raw(uint8_t* slave_state) {
     if (changed) last_encoder_activity_trigger();
 }
 #endif
+
+void insert_encoder_state(uint8_t index) {
+    encoder_state[index] <<= 2;
+    encoder_state[index] |= (readPin(encoders_pad_a[index]) << 0) | (readPin(encoders_pad_b[index]) << 1);
+    encoder_pulses[index] += encoder_LUT[encoder_state[index] & 0xF];
+}
