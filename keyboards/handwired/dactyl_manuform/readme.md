@@ -59,6 +59,14 @@ Similar to Default but adds support for the [Via](https://www.caniusevia.com/) k
 some keys to accomodate that constraint.
 
 ### [Keymaps 5x7 aka almost Ergodox](/keyboards/handwired/dactyl_manuform/5x7/keymaps/)
+#### Default
+QWERTY layout with 7 Layers.
+
+#### Via
+Similar to Default but adds support for the [Via](https://www.caniusevia.com/) keymap configurator. Reduces the number of layers to 4 to comply with Via defaults, and remaps
+some keys to accomodate that constraint.
+
+### [Keymaps 5x7 aka almost Ergodox](/keyboards/handwired/dactyl_manuform/5x7/keymaps/)
 
 #### Default
 
