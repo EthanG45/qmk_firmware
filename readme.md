@@ -1,3 +1,5 @@
+This is my pinned version of QMK version 0.16.9 at the following [commit](https://github.com/qmk/qmk_firmware/tree/b2d0dd2f32cfec21a745cb05f9f35e5dec4ffb8e). Note that flashing boards on M1 hardware was temporarily and coincidentally broken when I was setting up my keyboard. Thus use this [special build](https://github.com/qmk/qmk_toolbox/actions/runs/2205566280) of qmk toolbox to flash properly. Note that QMK toolbox 0.2.0 was the broken version and 0.2.1 and on should be fine for QMK toolbox. I created a few PRs that explain and show code I pulled in from different sources to setup my Keychron Q1.
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
