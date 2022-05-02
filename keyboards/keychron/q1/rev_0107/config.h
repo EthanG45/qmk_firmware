@@ -17,7 +17,7 @@
 #pragma once
 
 /* USB Device descriptor parameter */
-#define PRODUCT_ID      0x0107
+#define PRODUCT_ID      0x029c
 #define DEVICE_VER      0x0200
 
 /* key matrix size */
@@ -48,7 +48,7 @@
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS (24 * 8)  // 8 = RGB_MATRIX_VAL_STEP
 
 /* We have 2KB EEPROM size on STM32L432 */
-#define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
+// #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
 
 /* Encoder used pins */
 #define ENCODERS_PAD_A { A10 }
@@ -59,6 +59,8 @@
 
 /* Enable caps-lock LED */
 #define CAPS_LOCK_LED_INDEX 45
+
+// #define RGBLIGHT_DEFAULT_VAL 0
 
 /* Total size of the EEPROM storage in bytes */
 #define TRANSIENT_EEPROM_SIZE 1024
