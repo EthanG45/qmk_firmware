@@ -4,8 +4,8 @@
     "url": "",
     "maintainer": "Gondolindrim",
     "usb": {
-        "vid": "0x00DE",
-        "pid": "0x7572",
+        "vid": "0x05AC",
+        "pid": "0x029C",
         "device_version": "0.0.1"
     },
     "matrix_pins": {
