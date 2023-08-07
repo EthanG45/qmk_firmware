@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum custom_keycodes {
     FN_LAYR = SAFE_RANGE,
     ALFRED,
-    SIRI,
     SCRSHT,
     KC_SPOTLIGHT,
     KC_DICTATION,
@@ -40,10 +39,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB  , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   , KC_Y,   KC_U   , KC_I   , KC_O   , KC_P   , KC_LBRC, KC_RBRC, KC_BSLS,          KC_PGUP,
         KC_CAPS , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , KC_H,   KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_ENT ,                   KC_PGDN,
         KC_LSFT ,          KC_Z   , KC_X   , KC_C   , KC_V   , KC_B,   KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,          KC_UP  , KC_END ,
-        KC_LCTL , KC_LOPT, KC_LCMD,                            KC_SPC,                            KC_RCMD, FN_LAYR  ,          KC_LEFT, KC_DOWN, KC_RGHT
+        KC_LCTL , KC_LOPT, KC_LCMD,                            KC_SPC,                            KC_RCMD, AP_FN  ,          KC_LEFT, KC_DOWN, KC_RGHT
     ),
     [1] = LAYOUT_ansi_blocker(
-        QK_BOOT, KC_F1, KC_F2, KC_F3, KC_F4,          KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,          KC_TRNS,
+        KC_TRNS, KC_F1, KC_F2, KC_F3, KC_F4,          KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,          KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
+        KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                            KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [2] = LAYOUT_ansi_blocker(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, QK_BOOT,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                   KC_TRNS,
@@ -52,24 +59,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+static bool lshft_down = false;
+static bool fn_down = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case FN_LAYR:
+        case AP_FN:
             if (record->event.pressed) {
-                register_code(AP_FN);
-                layer_on(1);
+                if (lshft_down) {
+                    layer_on(2);
+                }
+                else {
+                    layer_on(1);
+                }
+                fn_down = true;
             } else {
+                layer_off(2);
                 layer_off(1);
-                unregister_code(AP_FN);
+                fn_down = false;
             }
-            return false;
-        case KC_MISSION_CONTROL_ETHAN:
+            return true;
+        case KC_LSFT:
             if (record->event.pressed) {
-                host_consumer_send(0x29F);
+                if (fn_down) {
+                    layer_on(2);
+                }
+                lshft_down = true;
             } else {
-                host_consumer_send(0);
+                layer_off(2);
+                lshft_down = false;
             }
-            return false;  // Skip all further processing of this key
+            return true;
         case KC_SPOTLIGHT:
             if (record->event.pressed) {
                 host_consumer_send(0x221);
@@ -104,15 +124,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_SPC);
             } else {
                 unregister_code(KC_LCMD);
-                unregister_code(KC_SPC);
-            }
-            return false;
-        case SIRI:
-            if (record->event.pressed) {
-                register_code(AP_FN);
-                register_code(KC_SPC);
-            } else {
-                unregister_code(AP_FN);
                 unregister_code(KC_SPC);
             }
             return false;
