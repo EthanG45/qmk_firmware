@@ -10,13 +10,13 @@
         "device_version": "0.0.1"
     },
     "features": {
-        "bootmagic": false,
+        "bootmagic": true,
         "mousekey": true,
         "extrakey": true,
         "console": false,
         "command": false,
         "nkro": true,
-        "rgb_matrix": false
+        "rgb_matrix": true
     },
     "diode_direction": "COL2ROW",
     "matrix_pins": {
@@ -27,7 +27,8 @@
         "driver": "ws2812"
     },
     "ws2812": {
-        "driver": "vendor"
+        "driver": "vendor",
+        "pin": "GP3"
     },
     "url": "https://github.com/zykrah/fuyu",
     "layouts": {
